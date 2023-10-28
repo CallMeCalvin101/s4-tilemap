@@ -63,10 +63,6 @@ for (let i = 0; i < numTiles; i++) {
 //track the selected tile
 let currentTile: HTMLImageElement = imageList[0];
 
-//draw the initial canvases
-redrawTilemap();
-drawSelectCanvas();
-
 //Function that draws a texture to a specific canvas ctx
 function drawTexture(
   row: number,
@@ -110,6 +106,14 @@ gridCanvas.addEventListener("click", (e) => {
   redrawTilemap();
 });
 
+gridCanvas.addEventListener("drag", (e) => {
+  const coordX = Math.trunc(e.offsetX / tileSize);
+  const coordY = Math.trunc(e.offsetY / tileSize);
+
+  tilemap[coordX][coordY].setImage(currentTile);
+  redrawTilemap();
+});
+
 // ----- Interacting with the selectable tilemap -----
 
 // Loop through the selectable tiles and draw textures in each cell
@@ -133,3 +137,7 @@ selectCanvas.addEventListener("click", (e) => {
   const coordY = Math.trunc(e.offsetY / selectHeight);
   currentTile = imageList[coordY];
 });
+
+//draw the initial canvases
+redrawTilemap();
+drawSelectCanvas();
